@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NexaTask Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero-frame">
+        <div class="hero-noise"></div>
+        <nav class="topbar">
+          <div class="brand">
+            <span class="brand-mark">NT</span>
+            <div>
+              <p class="eyebrow">Personal Focus System</p>
+              <h1>NexaTask Planner</h1>
+            </div>
+          </div>
+          <button id="clearCompletedBtn" class="ghost-button" type="button">Clear Completed</button>
+        </nav>
+
+        <section class="hero-grid">
+          <div class="hero-main">
+            <p class="section-label">Today's Workspace</p>
+            <h2>Organize BSCS study, web development practice, and both internships in a light, lively workspace.</h2>
+            <p class="hero-text">
+              A brighter dashboard with sunny color, crisp cards, and a cleaner hierarchy that feels energizing
+              instead of heavy.
+            </p>
+
+            <div class="identity-strip">
+              <span>BSCS Student</span>
+              <span>Web Development</span>
+              <span>Internship 01: Web Developer</span>
+              <span>Internship 02: Marketing Manager</span>
+            </div>
+          </div>
+
+          <aside class="hero-side">
+            <article class="signal-card accent-blue">
+              <p class="signal-label">Total Tasks</p>
+              <strong id="totalTasks">0</strong>
+            </article>
+            <article class="signal-card accent-green">
+              <p class="signal-label">Completed</p>
+              <strong id="completedTasks">0</strong>
+            </article>
+            <article class="signal-card accent-amber">
+              <p class="signal-label">Pending</p>
+              <strong id="pendingTasks">0</strong>
+            </article>
+            <article class="signal-card accent-red">
+              <p class="signal-label">High Priority</p>
+              <strong id="highPriorityTasks">0</strong>
+            </article>
+          </aside>
+        </section>
+      </header>
+
+      <main class="workspace-grid">
+        <section class="panel panel-form">
+          <div class="panel-heading">
+            <div>
+              <p class="section-label">Task Editor</p>
+              <h3 id="formTitle">Create a task</h3>
+            </div>
+            <span class="panel-badge">Auto saved</span>
+          </div>
+
+          <form id="taskForm" class="task-form">
+            <input id="taskId" type="hidden" />
+
+            <label>
+              Task title
+              <input id="titleInput" name="title" type="text" placeholder="Prepare internship progress update" required />
+            </label>
+
+            <label>
+              Details
+              <textarea
+                id="descriptionInput"
+                name="description"
+                rows="5"
+                placeholder="Add a short brief so the task is clear when you come back later"
+              ></textarea>
+            </label>
+
+            <div class="form-row">
+              <label>
+                Category
+                <select id="topicInput" name="topic">
+                  <option value="BSCS Study">BSCS Study</option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="Internship: Web Development">Internship: Web Development</option>
+                  <option value="Internship: Marketing Manager">Internship: Marketing Manager</option>
+                  <option value="Personal Growth">Personal Growth</option>
+                </select>
+              </label>
+
+              <label>
+                Priority
+                <select id="priorityInput" name="priority">
+                  <option value="Low">Low</option>
+                  <option value="Medium" selected>Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="form-row">
+              <label>
+                Due date
+                <input id="dueDateInput" name="dueDate" type="date" />
+              </label>
+
+              <label>
+                Status
+                <select id="statusInput" name="status">
+                  <option value="pending" selected>Pending</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="button-row">
+              <button class="primary-button" type="submit">Save Task</button>
+              <button id="resetFormBtn" class="secondary-button" type="button">Reset</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel panel-board">
+          <div class="panel-heading board-heading">
+            <div>
+              <p class="section-label">Task Board</p>
+              <h3>Priority lanes</h3>
+            </div>
+
+            <div class="toolbar">
+              <input id="searchInput" type="search" placeholder="Search tasks" />
+              <select id="filterStatus">
+                <option value="all">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="completed">Completed</option>
+              </select>
+              <select id="filterTopic">
+                <option value="all">All Categories</option>
+                <option value="BSCS Study">BSCS Study</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Internship: Web Development">Internship: Web Development</option>
+                <option value="Internship: Marketing Manager">Internship: Marketing Manager</option>
+                <option value="Personal Growth">Personal Growth</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="board-columns">
+            <section class="lane lane-high">
+              <div class="lane-header">
+                <span class="lane-dot"></span>
+                <h4>High Focus</h4>
+              </div>
+              <div id="highPriorityList" class="lane-list"></div>
+            </section>
+
+            <section class="lane lane-medium">
+              <div class="lane-header">
+                <span class="lane-dot"></span>
+                <h4>Steady Work</h4>
+              </div>
+              <div id="mediumPriorityList" class="lane-list"></div>
+            </section>
+
+            <section class="lane lane-low">
+              <div class="lane-header">
+                <span class="lane-dot"></span>
+                <h4>Light Tasks</h4>
+              </div>
+              <div id="lowPriorityList" class="lane-list"></div>
+            </section>
+          </div>
+
+          <div id="emptyState" class="empty-state">
+            <h4>No tasks found</h4>
+            <p>Add a task or change the filters to see your work here.</p>
+          </div>
+        </section>
+      </main>
+
+      <section class="bottom-strip">
+        <article class="info-tile">
+          <p class="section-label">Study</p>
+          <h4>Track BSCS goals with real deadlines and cleaner focus.</h4>
+        </article>
+        <article class="info-tile">
+          <p class="section-label">Internships</p>
+          <h4>Separate development and marketing responsibilities in one system.</h4>
+        </article>
+        <article class="info-tile">
+          <p class="section-label">Workflow</p>
+          <h4>Edit, filter, and update progress fast without losing tasks on refresh.</h4>
+        </article>
+      </section>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+  </html>
