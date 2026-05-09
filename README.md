@@ -67,12 +67,6 @@ Todo-App/
 
 ---
 
-## 📸 Preview
-
-*(Add screenshot here if available)*
-
----
-
 ## 👩‍💻 Author
 
 **Malaika Javed**
